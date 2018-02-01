@@ -1,10 +1,17 @@
 class Menu extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      menu: []
+    };
+  }
+
   render() {
-    let menus = ['Home', 'About', 'Services', 'Portfolio', 'Contact us'];
     return React.createElement(
       'div',
       null,
-      menus.map((v, i) => {
+      this.state.menu.map((v, i) => {
         return React.createElement(
           'div',
           { key: i },
@@ -12,6 +19,17 @@ class Menu extends React.Component {
         );
       })
     );
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:8080/menu.json').then(data => {
+      console.log(data);
+      let json = data.json();
+      console.log(json);
+      return json;
+    }).then(data => {
+      this.setState({ menu: data });
+    });
   }
 }
 

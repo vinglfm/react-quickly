@@ -1,17 +1,32 @@
 class Menu extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      menu: []
+    }
+  }
+
   render() {
-    let menus = ['Home',
-      'About',
-      'Services',
-      'Portfolio',
-      'Contact us']
     return (
       <div>
-        {menus.map((v,i) => {
+        {this.state.menu.map((v,i) => {
           return <div key={i}><Link label={v}/></div>
         })}
       </div>
-    )
+    );
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:8080/menu.json')
+      .then((data) => {
+        console.log(data);
+        let json = data.json();
+        console.log(json);
+        return json;
+      }).then((data) => {
+        this.setState({menu: data});
+      });
   }
 }
 
