@@ -1,3 +1,5 @@
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 class Tooltip extends React.Component {
   constructor(props) {
     super(props);
@@ -19,12 +21,21 @@ class Tooltip extends React.Component {
       top: (this.state.top || 0) + 20,
       left: (this.state.left || 0) - 30
     };
+
+    var props = {};
+    if (this.props.trigger === 'click') {
+      props.onClick = this.toggle;
+    } else if (this.props.trigger === 'move') {
+      props.onMouseEnter = this.toggle;
+      props.onMouseOut = this.toggle;
+    }
+
     return React.createElement(
       'div',
       { style: { display: 'inline' } },
       React.createElement(
         'span',
-        { style: { color: 'blue' }, onMouseEnter: this.toggle, onMouseOut: this.toggle },
+        _extends({ style: { color: 'blue' } }, props),
         this.props.children
       ),
       React.createElement(
@@ -46,13 +57,13 @@ ReactDOM.render(React.createElement(
   null,
   React.createElement(
     Tooltip,
-    { text: 'Master Express.js-The Node.js Framework For Your Web Development' },
+    { text: 'Master Express.js-The Node.js Framework For Your Web Development', trigger: 'click' },
     'Pro Express.js'
   ),
   ' was published in 2014. It was one of the first books on v4.x. And it was my second book published with Apress after ',
   React.createElement(
     Tooltip,
-    { text: 'Practical Node.js: Building Real-World Scalable Web Apps' },
+    { text: 'Practical Node.js: Building Real-World Scalable Web Apps', trigger: 'move' },
     'Practical Node.js'
   ),
   '. ... The main focus of this post is to compare the four Node.js/Io.js frameworks: ',
