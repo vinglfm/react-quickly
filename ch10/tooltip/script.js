@@ -5,7 +5,9 @@ class Tooltip extends React.Component {
     super(props);
     this.state = { opacity: false };
     this.toggle = this.toggle.bind(this);
+    this.createTriggerProps = this.createTriggerProps.bind(this);
   }
+
   toggle() {
     const tooltipNode = ReactDOM.findDOMNode(this);
     this.setState({
@@ -14,21 +16,22 @@ class Tooltip extends React.Component {
       left: tooltipNode.offsetLeft
     });
   }
+
   render() {
-    const style = {
+    let style = {
       zIndex: this.state.opacity ? 1000 : -1000,
       opacity: +this.state.opacity,
-      top: (this.state.top || 0) + 20,
+      top: (this.state.top || 0) + (this.props.position === 'below' ? 20 : -30),
       left: (this.state.left || 0) - 30
     };
 
-    var props = {};
-    if (this.props.trigger === 'click') {
-      props.onClick = this.toggle;
-    } else if (this.props.trigger === 'move') {
-      props.onMouseEnter = this.toggle;
-      props.onMouseOut = this.toggle;
+    if (this.props.position === 'above') {
+      style['white-space'] = 'nowrap';
+      style['overflow'] = 'hidden';
+      style['text-overflow'] = 'ellipsis';
     }
+
+    let props = this.createTriggerProps();
 
     return React.createElement(
       'div',
@@ -40,7 +43,7 @@ class Tooltip extends React.Component {
       ),
       React.createElement(
         'div',
-        { className: 'tooltip bottom', style: style, role: 'tooltip' },
+        { className: `tooltip ${this.props.position === 'below' ? 'bottom' : 'top'}`, style: style, role: 'tooltip' },
         React.createElement('div', { className: 'tooltip-arrow' }),
         React.createElement(
           'div',
@@ -50,14 +53,36 @@ class Tooltip extends React.Component {
       )
     );
   }
+
+  createTriggerProps() {
+    let props = {};
+    if (this.props.trigger === 'click') {
+      props.onClick = this.toggle;
+    } else if (this.props.trigger === 'move') {
+      props.onMouseEnter = this.toggle;
+      props.onMouseOut = this.toggle;
+    }
+    return props;
+  }
 }
+
+Tooltip.propTypes = {
+  text: PropTypes.string.isRequired,
+  trigger: PropTypes.oneOf(['click', 'move']),
+  position: PropTypes.oneOf(['below', 'above'])
+};
+
+Tooltip.defaultProps = {
+  trigger: 'move',
+  position: 'below'
+};
 
 ReactDOM.render(React.createElement(
   'div',
   null,
   React.createElement(
     Tooltip,
-    { text: 'Master Express.js-The Node.js Framework For Your Web Development', trigger: 'click' },
+    { text: 'Master Express.js-The Node.js Framework For Your Web Development', trigger: 'click', position: 'above' },
     'Pro Express.js'
   ),
   ' was published in 2014. It was one of the first books on v4.x. And it was my second book published with Apress after ',
