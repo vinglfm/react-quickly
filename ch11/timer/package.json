@@ -4,15 +4,24 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "build": "./node_modules/.bin/babel timer.jsx -o timer.js -w"
+    "build": "./node_modules/.bin/babel timer.jsx -o timer.js -w",
+    "copy-react": "./node_modules/copyfiles/copyfiles -f ./node_modules/react/umd/react.production.min.js ./ && ./node_modules/copyfiles/copyfiles -f ./node_modules/react-dom/umd/react-dom.production.min.js ./ && ./node_modules/copyfiles/copyfiles -f ./node_modules/prop-types/prop-types.js ./"
   },
   "author": "Azat Mardan",
   "license": "MIT",
   "babel": {
-    "presets": ["react"]
+    "presets": [
+      "react"
+    ]
   },
   "devDependencies": {
     "babel-cli": "6.9.0",
     "babel-preset-react": "6.5.0"
+  },
+  "dependencies": {
+    "copyfiles": "^1.2.0",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   }
 }
