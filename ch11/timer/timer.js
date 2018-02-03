@@ -1,72 +1,98 @@
-class Timer extends React.Component {
-  render() {
-    if (this.props.timeLeft == 0) {
-      document.getElementById('end-of-time').play();
-    }
-    if (this.props.timeLeft == null || this.props.timeLeft == 0) return React.createElement('div', null);
-    return React.createElement(
-      'h1',
-      null,
-      'Time left: ',
-      this.props.timeLeft
-    );
+const Timer = props => {
+  if (props.timeLeft == 0) {
+    document.getElementById('end-of-time').play();
   }
-}
+  if (props.timeLeft == null || props.timeLeft == 0) {
+    return React.createElement("div", null);
+  }
+  return React.createElement(
+    "h1",
+    null,
+    "Time left: ",
+    props.timeLeft
+  );
+};
 
-class Button extends React.Component {
-  startTimer(event) {
-    return this.props.startTimer(this.props.time);
-  }
-  render() {
-    return React.createElement(
-      'button',
-      {
-        type: 'button',
-        className: 'btn-default btn',
-        onClick: () => {
-          this.props.startTimer(this.props.time);
-        } },
-      this.props.time,
-      ' seconds'
-    );
-  }
-}
+const StartButton = props => {
+  return React.createElement(
+    "button",
+    {
+      type: "button",
+      className: "btn-default btn",
+      onClick: () => {
+        props.startTimer(props.time);
+      } },
+    props.time,
+    " seconds"
+  );
+};
+
+const Button = props => {
+  return React.createElement(
+    "button",
+    { type: "button", className: "btn-default btn", disabled: props.disabled, onClick: () => {
+        props.apply();
+      } },
+    props.labelText
+  );
+};
 
 class TimerWrapper extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { timeLeft: null, timer: null };
+    this.state = { timeLeft: null, timer: null, paused: false };
     this.startTimer = this.startTimer.bind(this);
+    this.pause = this.pause.bind(this);
+    this.resume = this.resume.bind(this);
   }
   startTimer(timeLeft) {
     clearInterval(this.state.timer);
     let timer = setInterval(() => {
-      console.log('2: Inside of setInterval');
       var timeLeft = this.state.timeLeft - 1;
-      if (timeLeft == 0) clearInterval(timer);
+      if (timeLeft == 0) {
+        clearInterval(timer);
+      }
       this.setState({ timeLeft: timeLeft });
     }, 1000);
-    console.log('1: After setInterval');
     return this.setState({ timeLeft: timeLeft, timer: timer });
   }
+  pause() {
+    if (this.state.timeLeft > 0 && !this.state.paused) {
+      this.setState({ paused: true });
+      clearInterval(this.state.timer);
+    }
+  }
+  resume() {
+    if (this.state.paused && this.state.timeLeft > 0) {
+      this.setState({ paused: false });
+      this.startTimer(this.state.timeLeft);
+    }
+  }
   render() {
+    console.log('render');
     return React.createElement(
-      'div',
-      { className: 'row-fluid' },
+      "div",
+      { className: "row-fluid" },
       React.createElement(
-        'h2',
+        "h2",
         null,
-        'Timer'
+        "Timer"
       ),
       React.createElement(
-        'div',
-        { className: 'btn-group', role: 'group' },
-        React.createElement(Button, { time: '5', startTimer: this.startTimer }),
-        React.createElement(Button, { time: '10', startTimer: this.startTimer }),
-        React.createElement(Button, { time: '15', startTimer: this.startTimer })
+        "div",
+        { className: "btn-group", role: "group" },
+        React.createElement(StartButton, { time: "5", startTimer: this.startTimer }),
+        React.createElement(StartButton, { time: "10", startTimer: this.startTimer }),
+        React.createElement(StartButton, { time: "15", startTimer: this.startTimer })
+      ),
+      React.createElement(
+        "div",
+        { className: "btn-group", role: "group" },
+        React.createElement(Button, { labelText: "Pause", apply: this.pause, disabled: this.state.paused }),
+        React.createElement(Button, { labelText: "Resume", apply: this.resume, disabled: !this.state.paused })
       ),
       React.createElement(Timer, { timeLeft: this.state.timeLeft }),
-      React.createElement('audio', { id: 'end-of-time', src: 'flute_c_long_01.wav', preload: 'auto' })
+      React.createElement("audio", { id: "end-of-time", src: "flute_c_long_01.wav", preload: "auto" })
     );
   }
 }
