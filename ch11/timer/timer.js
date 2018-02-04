@@ -1,36 +1,53 @@
 const Timer = props => {
   if (props.timeLeft == 0) {
-    document.getElementById('end-of-time').play();
+    dispatchEvent(new CustomEvent('playSound', {}));
   }
   if (props.timeLeft == null || props.timeLeft == 0) {
-    return React.createElement("div", null);
+    return React.createElement('div', null);
   }
   return React.createElement(
-    "h1",
+    'h1',
     null,
-    "Time left: ",
+    'Time left: ',
     props.timeLeft
   );
 };
 
+class Sound extends React.Component {
+  constructor(props) {
+    super(props);
+    this.sound = this.sound.bind(this);
+  }
+
+  sound() {
+    this.refs.sound.play();
+  }
+  componentDidMount() {
+    window.addEventListener('playSound', this.sound);
+  }
+  render() {
+    return React.createElement('audio', { ref: 'sound', src: this.props.file, preload: 'auto' });
+  }
+}
+
 const StartButton = props => {
   return React.createElement(
-    "button",
+    'button',
     {
-      type: "button",
-      className: "btn-default btn",
+      type: 'button',
+      className: 'btn-default btn',
       onClick: () => {
         props.startTimer(props.time);
       } },
     props.time,
-    " seconds"
+    ' seconds'
   );
 };
 
 const Button = props => {
   return React.createElement(
-    "button",
-    { type: "button", className: "btn-default btn", disabled: props.disabled, onClick: () => {
+    'button',
+    { type: 'button', className: 'btn-default btn', disabled: props.disabled, onClick: () => {
         props.apply();
       } },
     props.labelText
@@ -87,34 +104,34 @@ class TimerWrapper extends React.Component {
   render() {
     console.log('render');
     return React.createElement(
-      "div",
-      { className: "row-fluid" },
+      'div',
+      { className: 'row-fluid' },
       React.createElement(
-        "h2",
+        'h2',
         null,
-        "Timer"
+        'Timer'
       ),
       React.createElement(
-        "div",
-        { className: "btn-group", role: "group" },
-        React.createElement(StartButton, { time: "5", startTimer: this.startTimer }),
-        React.createElement(StartButton, { time: "10", startTimer: this.startTimer }),
-        React.createElement(StartButton, { time: "15", startTimer: this.startTimer })
+        'div',
+        { className: 'btn-group', role: 'group' },
+        React.createElement(StartButton, { time: '5', startTimer: this.startTimer }),
+        React.createElement(StartButton, { time: '10', startTimer: this.startTimer }),
+        React.createElement(StartButton, { time: '15', startTimer: this.startTimer })
       ),
       React.createElement(
-        "div",
+        'div',
         null,
         React.createElement(
-          "div",
-          { className: "btn-group", role: "group" },
-          React.createElement(Button, { labelText: "Pause", apply: this.pause, disabled: this.state.paused }),
-          React.createElement(Button, { labelText: "Resume", apply: this.resume, disabled: !this.state.paused }),
-          React.createElement(Button, { labelText: "Cancel", apply: this.cancel }),
-          React.createElement(Button, { labelText: "Reset", apply: this.reset })
+          'div',
+          { className: 'btn-group', role: 'group' },
+          React.createElement(Button, { labelText: 'Pause', apply: this.pause, disabled: this.state.paused }),
+          React.createElement(Button, { labelText: 'Resume', apply: this.resume, disabled: !this.state.paused }),
+          React.createElement(Button, { labelText: 'Cancel', apply: this.cancel }),
+          React.createElement(Button, { labelText: 'Reset', apply: this.reset })
         )
       ),
       React.createElement(Timer, { timeLeft: this.state.timeLeft }),
-      React.createElement("audio", { id: "end-of-time", src: "flute_c_long_01.wav", preload: "auto" })
+      React.createElement(Sound, { file: 'flute_c_long_01.wav' })
     );
   }
 }
