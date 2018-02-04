@@ -1,3 +1,5 @@
+const RingLoader = require('RingLoader');
+
 const Timer = (props) => {
     if (props.timeLeft == 0) {
       dispatchEvent(new CustomEvent('playSound', {}));
@@ -5,7 +7,10 @@ const Timer = (props) => {
     if (props.timeLeft == null || props.timeLeft == 0) {
       return <div/>;
     }
-    return <h1>Time left: {props.timeLeft}</h1>
+    return (<div>
+          <h1>Time left: {props.timeLeft}</h1>
+          <RingLoader color={'#123abc'} loading={this.state.loading} />
+        </div>);
   };
 
 class Sound extends React.Component {
