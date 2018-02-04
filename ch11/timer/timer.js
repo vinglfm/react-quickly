@@ -40,10 +40,12 @@ const Button = props => {
 class TimerWrapper extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { timeLeft: null, timer: null, paused: false };
+    this.state = { timeLeft: null, timeFrom: null, timer: null, paused: false };
     this.startTimer = this.startTimer.bind(this);
     this.pause = this.pause.bind(this);
     this.resume = this.resume.bind(this);
+    this.cancel = this.cancel.bind(this);
+    this.reset = this.reset.bind(this);
   }
   startTimer(timeLeft) {
     clearInterval(this.state.timer);
@@ -54,7 +56,7 @@ class TimerWrapper extends React.Component {
       }
       this.setState({ timeLeft: timeLeft });
     }, 1000);
-    return this.setState({ timeLeft: timeLeft, timer: timer });
+    return this.setState({ timeLeft: timeLeft, timeFrom: timeLeft, timer: timer });
   }
   pause() {
     if (this.state.timeLeft > 0 && !this.state.paused) {
@@ -66,6 +68,20 @@ class TimerWrapper extends React.Component {
     if (this.state.paused && this.state.timeLeft > 0) {
       this.setState({ paused: false });
       this.startTimer(this.state.timeLeft);
+    }
+  }
+  cancel() {
+    if (this.state.timeLeft > 0) {
+      this.setState({
+        timeLeft: null,
+        paused: false
+      });
+      clearInterval(this.state.timer);
+    }
+  }
+  reset() {
+    if (this.state.timeLeft > 0) {
+      this.setState({ timeLeft: this.state.timeFrom });
     }
   }
   render() {
@@ -87,9 +103,15 @@ class TimerWrapper extends React.Component {
       ),
       React.createElement(
         "div",
-        { className: "btn-group", role: "group" },
-        React.createElement(Button, { labelText: "Pause", apply: this.pause, disabled: this.state.paused }),
-        React.createElement(Button, { labelText: "Resume", apply: this.resume, disabled: !this.state.paused })
+        null,
+        React.createElement(
+          "div",
+          { className: "btn-group", role: "group" },
+          React.createElement(Button, { labelText: "Pause", apply: this.pause, disabled: this.state.paused }),
+          React.createElement(Button, { labelText: "Resume", apply: this.resume, disabled: !this.state.paused }),
+          React.createElement(Button, { labelText: "Cancel", apply: this.cancel }),
+          React.createElement(Button, { labelText: "Reset", apply: this.reset })
+        )
       ),
       React.createElement(Timer, { timeLeft: this.state.timeLeft }),
       React.createElement("audio", { id: "end-of-time", src: "flute_c_long_01.wav", preload: "auto" })

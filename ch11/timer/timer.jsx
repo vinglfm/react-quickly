@@ -8,7 +8,6 @@ const Timer = (props) => {
     return <h1>Time left: {props.timeLeft}</h1>
   };
 
-
 const StartButton = (props) => {
     return <button
       type="button"
@@ -27,10 +26,12 @@ const Button = (props) => {
 class TimerWrapper extends React.Component {
   constructor(props) {
     super(props);
-    this.state =  {timeLeft: null, timer: null, paused: false};
+    this.state =  {timeLeft: null, timeFrom: null, timer: null, paused: false};
     this.startTimer = this.startTimer.bind(this);
     this.pause = this.pause.bind(this);
     this.resume = this.resume.bind(this);
+    this.cancel = this.cancel.bind(this);
+    this.reset = this.reset.bind(this);
   }
   startTimer(timeLeft) {
     clearInterval(this.state.timer);
@@ -41,7 +42,7 @@ class TimerWrapper extends React.Component {
       }
       this.setState({timeLeft: timeLeft});
     }, 1000)
-    return this.setState({timeLeft: timeLeft, timer: timer});
+    return this.setState({timeLeft: timeLeft, timeFrom: timeLeft, timer: timer});
   }
   pause() {
     if(this.state.timeLeft > 0 && !this.state.paused) {
@@ -55,6 +56,20 @@ class TimerWrapper extends React.Component {
       this.startTimer(this.state.timeLeft);
     }
   }
+  cancel() {
+    if(this.state.timeLeft > 0) {
+      this.setState({
+        timeLeft: null,
+        paused: false
+      });
+      clearInterval(this.state.timer);
+    }
+  }
+  reset() {
+    if(this.state.timeLeft > 0) {
+      this.setState({timeLeft:this.state.timeFrom});
+    }
+  }
   render() {
     console.log('render');
     return (
@@ -65,9 +80,13 @@ class TimerWrapper extends React.Component {
           <StartButton time="10" startTimer={this.startTimer}/>
           <StartButton time="15" startTimer={this.startTimer}/>
         </div>
-        <div className="btn-group" role="group">
-          <Button labelText="Pause" apply={this.pause} disabled={this.state.paused}/>
-          <Button labelText="Resume" apply={this.resume} disabled={!this.state.paused}/>
+        <div>
+          <div className="btn-group" role="group">
+            <Button labelText="Pause" apply={this.pause} disabled={this.state.paused}/>
+            <Button labelText="Resume" apply={this.resume} disabled={!this.state.paused}/>
+            <Button labelText="Cancel" apply={this.cancel}/>
+            <Button labelText="Reset" apply={this.reset}/>
+          </div>
         </div>
         <Timer timeLeft={this.state.timeLeft}/>
       <audio id="end-of-time" src="flute_c_long_01.wav" preload="auto"></audio>
