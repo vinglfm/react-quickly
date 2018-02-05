@@ -1,7 +1,7 @@
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack');
+const path = require('path');
 
-var config = {
+const config = {
   entry: __dirname + '/index.jsx',
   output: {
     path: __dirname + '/build',
