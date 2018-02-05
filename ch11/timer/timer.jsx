@@ -1,4 +1,7 @@
-const RingLoader = require('RingLoader');
+// const RingLoader = require('RingLoader');
+let React = require('react');
+let ReactDOM = require('react-dom');
+let PropTypes = require('prop-types');
 
 const Timer = (props) => {
     if (props.timeLeft == 0) {
@@ -9,10 +12,14 @@ const Timer = (props) => {
     }
     return (<div>
           <h1>Time left: {props.timeLeft}</h1>
-          <RingLoader color={'#123abc'} loading={this.state.loading} />
         </div>);
   };
 
+Timer.propTypes = {
+  timeLeft: PropTypes.number
+}
+
+//<RingLoader color={'#123abc'} loading={this.state.loading} />
 class Sound extends React.Component {
   constructor(props) {
     super(props);
@@ -30,6 +37,10 @@ class Sound extends React.Component {
   }
 }
 
+Sound.propTypes = {
+  file: PropTypes.string.isRequired
+}
+
 const StartButton = (props) => {
     return <button
       type="button"
@@ -39,11 +50,29 @@ const StartButton = (props) => {
     </button>
   };
 
+StartButton.propTypes = {
+  time: PropTypes.number,
+  startTimer: PropTypes.func
+}
+
+StartButton.defaultProps = {
+  time: 0
+}
+
 const Button = (props) => {
       return <button type="button" className="btn-default btn" disabled={props.disabled} onClick={()=>{props.apply()}}>
         {props.labelText}
       </button>
   };
+
+Button.propTypes = {
+  disabled: PropTypes.bool,
+  apply: PropTypes.func
+}
+
+Button.defaultProps = {
+  disabled: false
+}
 
 class TimerWrapper extends React.Component {
   constructor(props) {
@@ -98,9 +127,9 @@ class TimerWrapper extends React.Component {
       <div className="row-fluid">
         <h2>Timer</h2>
         <div className="btn-group" role="group">
-          <StartButton time="5" startTimer={this.startTimer}/>
-          <StartButton time="10" startTimer={this.startTimer}/>
-          <StartButton time="15" startTimer={this.startTimer}/>
+          <StartButton time={5} startTimer={this.startTimer}/>
+          <StartButton time={10} startTimer={this.startTimer}/>
+          <StartButton time={15} startTimer={this.startTimer}/>
         </div>
         <div>
           <div className="btn-group" role="group">

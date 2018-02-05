@@ -1,12 +1,9 @@
 var webpack = require('webpack');
-var path = require('path');
-
-var BUILD_DIR = path.resolve(__dirname, 'build');
 
 var config = {
   entry: __dirname + '/timer.jsx',
   output: {
-    path: BUILD_DIR,
+    path: __dirname + '/build',
     filename: 'bundle.js'
   },
   module : {
