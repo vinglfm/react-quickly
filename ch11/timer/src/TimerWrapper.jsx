@@ -1,85 +1,8 @@
 let React = require('react');
-let ReactDOM = require('react-dom');
-let PropTypes = require('prop-types');
-let DotLoader = require('react-spinners').DotLoader;
-
-require('bootstrap/dist/css/bootstrap.min.css');
-
-const Timer = (props) => {
-    if (props.timeLeft == 0) {
-      dispatchEvent(new CustomEvent('playSound', {}));
-    }
-    if (props.timeLeft == null || props.timeLeft == 0) {
-      return <div/>;
-    }
-    return (<div>
-          <h1>Time left: {props.timeLeft}</h1>
-          <DotLoader color={'#123abc'} loading={props.loading}/>
-        </div>);
-  };
-
-Timer.propTypes = {
-  timeLeft: PropTypes.number.isRequired,
-  loading: PropTypes.bool
-}
-
-Timer.defaultProps = {
-  loading: true
-}
-
-class Sound extends React.Component {
-  constructor(props) {
-    super(props);
-    this.sound = this.sound.bind(this);
-  }
-
-  sound() {
-    this.refs.sound.play();
-  }
-  componentDidMount() {
-    window.addEventListener('playSound', this.sound);
-  }
-  render() {
-    return <audio ref="sound" src={this.props.file} preload="auto"></audio>
-  }
-}
-
-Sound.propTypes = {
-  file: PropTypes.string.isRequired
-}
-
-const StartButton = (props) => {
-    return <button
-      type="button"
-      className="btn-default btn"
-      onClick={()=>{props.startTimer(props.time)}}>
-      {props.time} seconds
-    </button>
-  };
-
-StartButton.propTypes = {
-  time: PropTypes.number,
-  startTimer: PropTypes.func
-}
-
-StartButton.defaultProps = {
-  time: 0
-}
-
-const Button = (props) => {
-      return <button type="button" className="btn-default btn" disabled={props.disabled} onClick={()=>{props.apply()}}>
-        {props.labelText}
-      </button>
-  };
-
-Button.propTypes = {
-  disabled: PropTypes.bool,
-  apply: PropTypes.func
-}
-
-Button.defaultProps = {
-  disabled: false
-}
+let Timer = require('Timer');
+let Button = require('Button');
+let StartButton = require('StartButton');
+let Sound = require('Sound');
 
 class TimerWrapper extends React.Component {
   constructor(props) {
@@ -153,7 +76,4 @@ class TimerWrapper extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <TimerWrapper/>,
-  document.getElementById('timer-app')
-)
+module.exports = TimerWrapper;
