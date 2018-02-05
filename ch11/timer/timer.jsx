@@ -3,6 +3,8 @@ let ReactDOM = require('react-dom');
 let PropTypes = require('prop-types');
 let DotLoader = require('react-spinners').DotLoader;
 
+require('bootstrap/dist/css/bootstrap.min.css');
+
 const Timer = (props) => {
     if (props.timeLeft == 0) {
       dispatchEvent(new CustomEvent('playSound', {}));
@@ -12,12 +14,17 @@ const Timer = (props) => {
     }
     return (<div>
           <h1>Time left: {props.timeLeft}</h1>
-          <DotLoader color={'#123abc'}/>
+          <DotLoader color={'#123abc'} loading={props.loading}/>
         </div>);
   };
 
 Timer.propTypes = {
-  timeLeft: PropTypes.number
+  timeLeft: PropTypes.number.isRequired,
+  loading: PropTypes.bool
+}
+
+Timer.defaultProps = {
+  loading: true
 }
 
 class Sound extends React.Component {
@@ -139,7 +146,7 @@ class TimerWrapper extends React.Component {
             <Button labelText="Reset" apply={this.reset}/>
           </div>
         </div>
-        <Timer timeLeft={this.state.timeLeft}/>
+        <Timer timeLeft={this.state.timeLeft} loading={!this.state.paused}/>
         <Sound file="flute_c_long_01.wav"/>
       </div>
     )
