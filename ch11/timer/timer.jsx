@@ -1,7 +1,7 @@
-// const RingLoader = require('RingLoader');
 let React = require('react');
 let ReactDOM = require('react-dom');
 let PropTypes = require('prop-types');
+let DotLoader = require('react-spinners').DotLoader;
 
 const Timer = (props) => {
     if (props.timeLeft == 0) {
@@ -12,6 +12,7 @@ const Timer = (props) => {
     }
     return (<div>
           <h1>Time left: {props.timeLeft}</h1>
+          <DotLoader color={'#123abc'}/>
         </div>);
   };
 
@@ -19,7 +20,6 @@ Timer.propTypes = {
   timeLeft: PropTypes.number
 }
 
-//<RingLoader color={'#123abc'} loading={this.state.loading} />
 class Sound extends React.Component {
   constructor(props) {
     super(props);

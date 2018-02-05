@@ -9,15 +9,11 @@
   },
   "author": "Azat Mardan",
   "license": "MIT",
-  "babel": {
-    "presets": [
-      "react"
-    ]
-  },
   "devDependencies": {
     "babel-cli": "6.9.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.12",
-    "babel-preset-react": "6.5.0"
+    "babel-preset-react": "6.5.0",
+    "babel-preset-stage-0": "^6.24.1"
   },
   "dependencies": {
     "babel-loader": "^7.1.2",
