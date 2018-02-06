@@ -2,13 +2,10 @@ const webpack = require('webpack');
 const path = require('path');
 
 const config = {
-  entry: __dirname + '/index.jsx',
+  entry: path.join(__dirname, '/index.jsx'),
   output: {
-    path: __dirname + '/build',
+    path: path.join(__dirname, '/build'),
     filename: 'bundle.js'
-  },
-  resolve: {
-    TimerWrapper: __dirname + 'src/TimerWrapper.jsx'
   },
   resolve: {
     alias: {
@@ -29,6 +26,13 @@ const config = {
       {
         test: /\.css$/,
         loader: "style-loader!css-loader"
+      },
+      {
+        test:   /\.wav$/,
+        loader: 'url-loader',
+        options:  {
+          limit: 80000
+        }
       }
     ]
   }

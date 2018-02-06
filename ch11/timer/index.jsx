@@ -1,6 +1,5 @@
 let React = require('react');
 let ReactDOM = require('react-dom');
-
 let TimerWrapper = require('TimerWrapper');
 
 require('bootstrap/dist/css/bootstrap.min.css');

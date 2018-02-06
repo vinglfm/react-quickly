@@ -3,6 +3,7 @@ let Timer = require('Timer');
 let Button = require('Button');
 let StartButton = require('StartButton');
 let Sound = require('Sound');
+let timerSound = require('../timerSound.wav');
 
 class TimerWrapper extends React.Component {
   constructor(props) {
@@ -70,7 +71,7 @@ class TimerWrapper extends React.Component {
           </div>
         </div>
         <Timer timeLeft={this.state.timeLeft} loading={!this.state.paused}/>
-        <Sound file="flute_c_long_01.wav"/>
+        <Sound file={timerSound}/>
       </div>
     )
   }

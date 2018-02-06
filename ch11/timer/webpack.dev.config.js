@@ -5,14 +5,11 @@ const path = require('path');
 
 const config = {
   entry: {
-    app: __dirname + '/index.jsx'
+    app: path.join(__dirname, '/index.jsx')
   },
   output: {
-    path: __dirname + '/build',
+    path: path.join(__dirname, '/build'),
     filename: 'bundle.js'
-  },
-  resolve: {
-    TimerWrapper: __dirname + 'src/TimerWrapper.jsx'
   },
   resolve: {
     alias: {
@@ -20,7 +17,7 @@ const config = {
       Button: path.resolve(__dirname, 'src/Button.jsx'),
       StartButton: path.resolve(__dirname, 'src/StartButton.jsx'),
       Sound: path.resolve(__dirname, 'src/Sound.jsx'),
-      Timer: path.resolve(__dirname, 'src/Timer.jsx'),
+      Timer: path.resolve(__dirname, 'src/Timer.jsx')
     }
   },
   module : {
@@ -33,18 +30,25 @@ const config = {
       {
         test: /\.css$/,
         loader: "style-loader!css-loader"
+      },
+      {
+        test:   /\.wav$/,
+        loader: 'url-loader',
+        options:  {
+          limit: 80000
+        }
       }
     ]
   },
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: './build',
+    contentBase: path.resolve(__dirname, '/build'),
     hot: true
   },
   plugins: [
       new CleanWebpackPlugin(['build']),
       new HtmlWebpackPlugin({
-        title: 'Hot Module Replacement'
+        template: path.resolve(__dirname, 'index.html')
       }),
      new webpack.NamedModulesPlugin(),
      new webpack.HotModuleReplacementPlugin()]
