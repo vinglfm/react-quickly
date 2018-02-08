@@ -1,6 +1,6 @@
-let React = require('react');
-let PropTypes = require('prop-types');
-let DotLoader = require('react-spinners').DotLoader;
+const React = require('react');
+const PropTypes = require('prop-types');
+const DotLoader = require('react-spinners').DotLoader;
 
 const Timer = (props) => {
     if (props.timeLeft == 0) {

@@ -1,9 +1,9 @@
-let React = require('react');
-let Timer = require('Timer');
-let Button = require('Button');
-let StartButton = require('StartButton');
-let Sound = require('Sound');
-let timerSound = require('../timerSound.wav');
+const React = require('react');
+const Timer = require('Timer');
+const Button = require('Button');
+const StartButton = require('StartButton');
+const Sound = require('Sound');
+const timerSound = require('../timerSound.wav');
 
 class TimerWrapper extends React.Component {
   constructor(props) {

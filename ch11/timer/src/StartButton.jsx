@@ -1,13 +1,13 @@
-let React = require('react');
-let PropTypes = require('prop-types');
+const React = require('react');
+const PropTypes = require('prop-types');
 
 const StartButton = (props) => {
-    return <button
+    return (<button
       type="button"
       className="btn-default btn"
       onClick={()=>{props.startTimer(props.time)}}>
       {props.time} seconds
-    </button>
+    </button>);
   };
 
 StartButton.propTypes = {

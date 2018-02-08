@@ -1,5 +1,5 @@
-let React = require('react');
-let PropTypes = require('prop-types');
+const React = require('react');
+const PropTypes = require('prop-types');
 
 const Button = (props) => {
       return <button type="button" className="btn-default btn" disabled={props.disabled} onClick={()=>{props.apply()}}>
