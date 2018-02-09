@@ -14,6 +14,10 @@ const config = {
       StartButton: path.resolve(__dirname, 'src/StartButton.jsx'),
       Sound: path.resolve(__dirname, 'src/Sound.jsx'),
       Timer: path.resolve(__dirname, 'src/Timer.jsx'),
+      App: path.resolve(__dirname, 'src/App.jsx'),
+      About: path.resolve(__dirname, 'src/About.jsx'),
+      Content: path.resolve(__dirname, 'src/Content.jsx'),
+      Navbar: path.resolve(__dirname, 'src/Navbar.jsx')
     }
   },
   module : {

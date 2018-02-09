@@ -17,7 +17,11 @@ const config = {
       Button: path.resolve(__dirname, 'src/Button.jsx'),
       StartButton: path.resolve(__dirname, 'src/StartButton.jsx'),
       Sound: path.resolve(__dirname, 'src/Sound.jsx'),
-      Timer: path.resolve(__dirname, 'src/Timer.jsx')
+      Timer: path.resolve(__dirname, 'src/Timer.jsx'),
+      App: path.resolve(__dirname, 'src/App.jsx'),
+      About: path.resolve(__dirname, 'src/About.jsx'),
+      Content: path.resolve(__dirname, 'src/Content.jsx'),
+      Navbar: path.resolve(__dirname, 'src/Navbar.jsx')
     }
   },
   module : {
@@ -29,6 +33,7 @@ const config = {
       },
       {
         test: /\.css$/,
+        include : __dirname,
         loader: "style-loader!css-loader"
       },
       {

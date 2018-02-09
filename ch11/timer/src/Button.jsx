@@ -2,9 +2,9 @@ const React = require('react');
 const PropTypes = require('prop-types');
 
 const Button = (props) => {
-      return <button type="button" className="btn-default btn" disabled={props.disabled} onClick={()=>{props.apply()}}>
+      return (<button type="button" className="btn-default btn" disabled={props.disabled} onClick={()=>{props.apply()}}>
         {props.labelText}
-      </button>
+      </button>);
   };
 
 Button.propTypes = {
